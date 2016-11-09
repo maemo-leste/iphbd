@@ -60,15 +60,11 @@ struct _iphb_wait_resp_t {
   time_t waited;  /*!< time in secs client really waited */
 };
 
-
-
 /**@brief Command code */
 enum _iphb_cmd_t {
   IPHB_WAIT = 0,  /*!< wait heartbeat */
   IPHB_STAT = 1,  /*!< get statistics */
 };
-
-
 
 /**@brief Request */
 struct _iphb_req_t {
@@ -79,30 +75,6 @@ struct _iphb_req_t {
   }
   u;
 };
-
-
-#include "dsme/messages.h"
-
-enum {
-    DSME_MSG_ENUM(DSM_MSGTYPE_WAIT,   0x00000600),
-    DSME_MSG_ENUM(DSM_MSGTYPE_WAKEUP, 0x00000601),
-};
-
-typedef struct {
-    DSMEMSG_PRIVATE_FIELDS
-    struct _iphb_wait_req_t req;
-    void*                   data;
-} DSM_MSGTYPE_WAIT;
-
-typedef struct {
-    DSMEMSG_PRIVATE_FIELDS
-    struct _iphb_wait_resp_t resp;
-    void*                    data;
-} DSM_MSGTYPE_WAKEUP;
-
-
-
-
 
 #endif  /* IPHB_INTERNAL_H */
 
