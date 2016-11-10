@@ -31,20 +31,18 @@ debian/libiphb0
 build-stamp
 configure-stamp
 debian/files
-debian/hbtest-dbg.substvars
-debian/hbtest-dbg/
-debian/hbtest.substvars
-debian/hbtest/
+debian/iphbd.substvars
+debian/iphbd/
 debian/libiphb-dev.substvars
 debian/libiphb-dev/
-debian/libiphb0-dbg.substvars
-debian/libiphb0-dbg/
+debian/iphbd-dbg.substvars
+debian/iphbd-dbg/
 debian/libiphb0.substvars
 debian/libiphb0.postinst.debhelper
 debian/libiphb0.postrm.debhelper
 debian/tmp/
 
-iphbd/hbtest
+iphbd/iphbd
 iphbd/libiphb.pc
 iphbd/libiphb-uninstalled.pc
 
