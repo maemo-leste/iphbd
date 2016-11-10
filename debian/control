@@ -1,0 +1,35 @@
+Source: iphbd
+Section: misc
+Priority: optional
+Maintainer: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Build-Depends: debhelper (>= 4.1.0),
+ pkg-config,
+ libglib2.0-dev,
+ libdbus-1-dev (>= 1.0),
+ libdbus-glib-1-dev,
+ libtool,
+ autoconf,
+ automake
+Standards-Version: 3.7.2
+
+Package: libiphb0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: API for IP Heartbeat service
+ This package contains C API for using IP Heartbeat service.
+
+Package: iphbd-dbg
+Section: libdevel
+Priority: extra
+Architecture: any
+Depends: libiphb0 (= ${Source-Version})
+Description: Debug symbols for iphbd and libiphb0
+ This package provides debug symbols for the IP Heartbeat API and daemon.
+
+Package: libiphb-dev
+Section: libdevel
+Architecture: any
+Depends: libiphb0 (= ${Source-Version}), ${shlibs:Depends}
+Description: Development files for IP Heartbeat service
+ This package contains C headers for the IP Heartbeat API.
