@@ -18,7 +18,7 @@ iphbdincludedir = @includedir@/iphbd
 lib_LTLIBRARIES = libiphb.la
 
 libiphb_la_SOURCES = libiphb.c
-libiphb_la_LDFLAGS = $(AM_LDFLAGS) -shared
+libiphb_la_LDFLAGS = $(AM_LDFLAGS)
 
 iphbdinclude_HEADERS = libiphb.h
 
