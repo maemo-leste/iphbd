@@ -25,32 +25,32 @@
 
 #define IPHBD_CRITICAL(msg, ...) do {\
   if (debug) {printf("iphb:"msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);}\
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_CRIT), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_CRIT), msg, ##__VA_ARGS__); \
   } while(0)
 
 #define IPHBD_ERROR(msg, ...) do {\
   if (debug) {printf("iphb:"msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);} \
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_ERR), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_ERR), msg, ##__VA_ARGS__); \
 } while(0)
 
 #define IPHBD_WARNING(msg, ...) do {\
   if (debug) {printf(msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);} \
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_WARNING), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_WARNING), msg, ##__VA_ARGS__); \
   } while(0)
 
 #define IPHBD_NOTICE(msg, ...)  do {\
   if (debug) {printf(msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);} \
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_NOTICE), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_NOTICE), msg, ##__VA_ARGS__); \
   } while(0)
 
 #define IPHBD_INFO(msg, ...)  do {\
   if (debug) {printf("iphb:"msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);}\
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_INFO), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_INFO), msg, ##__VA_ARGS__); \
 } while(0)
 
 #define IPHBD_DEBUG(msg, ...) do {\
   if (debug) {printf(msg, ##__VA_ARGS__); putchar(0x0a); fflush(stdout);\
-  syslog(LOG_MAKEPRI(LOG_KERN, LOG_DEBUG), "%s:%d:" msg "\n", __func__, __LINE__, ##__VA_ARGS__); \
+  syslog(LOG_MAKEPRI(LOG_KERN, LOG_DEBUG), msg, ##__VA_ARGS__); \
   }} while(0)
 
 typedef struct _client_t
