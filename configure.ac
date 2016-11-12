@@ -15,9 +15,7 @@ AC_CONFIG_SRCDIR([iphbd/libiphb.c])
 #
 AC_DEFINE_UNQUOTED([PRG_VERSION],[$VERSION],[Version for iphbd])
 
-AC_SUBST(C_GENFLAGS, ["-pthread -g -std=c99 -Wall -Wwrite-strings -Wmissing-prototypes -Werror"])
-AC_SUBST(C_OPTFLAGS, ["-O2 -s"])
-AC_SUBST(C_DBGFLAGS, ["-g -DDEBUG -DDSME_LOG_ENABLE"])
+AC_SUBST(C_GENFLAGS, ["-pthread -g -std=c99 -Wall -Wwrite-strings -Wmissing-prototypes -Wall -Werror"])
 
 # Checks for programs.
 AC_PROG_CC
