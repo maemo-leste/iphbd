@@ -34,10 +34,9 @@
 #define HB_KERNEL_DEVICE        "/dev/iphb"	    /**@brief Device between kernel module and iphbd */
 #define HB_KERNEL_DEVICE_TEST   "/tmp/iphb"	    /**@brief Test device between kernel module and iphbd */
 
-#if 0
 #define HB_MINTIME(__interval) (__interval - __interval/3)	/* Default minimum heartbeat wait time	*/
 #define HB_MAXTIME(__interval) (__interval + __interval/3)	/* Default maximum heartbeat wait time  */
-#endif
+
 #define HB_LKM_KICK_ME_PERIOD    	"30"				/**@brief Period (seconds) the kernel sends messages to iphbd when IP traffic is seen */
 
 /**@brief Message from iphbd to client open request */

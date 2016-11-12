@@ -43,6 +43,7 @@ debian/libiphb0.postrm.debhelper
 debian/tmp/
 
 iphbd/iphbd
+iphbd/hbtest
 iphbd/libiphb.pc
 iphbd/libiphb-uninstalled.pc
 

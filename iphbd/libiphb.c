@@ -135,7 +135,7 @@ iphb_get_uid(iphb_t iphbh)
 static int
 suck_data(int fd)
 {
-  size_t bytes = -1;
+  int32_t bytes = -1;
 
   /* suck away unread messages */
   if (ioctl(fd, FIONREAD, &bytes) != -1 && bytes > 0)
@@ -181,7 +181,7 @@ iphb_get_stats(iphb_t iphbh, struct iphb_stats *stats)
   if (st <= 0)
     return -1;
 
-  if (recv(HB_INST(iphbh)->fd, stats, sizeof(stats), 256) > 0)
+  if (recv(HB_INST(iphbh)->fd, stats, sizeof(*stats), MSG_WAITALL) > 0)
       return 0;
 
   return -1;
@@ -191,7 +191,7 @@ time_t
 iphb_wait(iphb_t iphbh, unsigned short mintime, unsigned short maxtime,
           int must_wait)
 {
-  struct _iphb_req_t  req = {IPHB_WAIT};
+  struct _iphb_req_t req = {IPHB_WAIT};
   struct _iphb_wait_resp_t resp = {0};
   int st;
 

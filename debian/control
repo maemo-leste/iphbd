@@ -12,24 +12,33 @@ Build-Depends: debhelper (>= 4.1.0),
  automake
 Standards-Version: 3.7.2
 
+Package: iphbd
+Section: misc
+Priority: optional
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: IP heartbeat daemon
+ This package contains the IP Heartbeat daemon which provides
+ synchronization services for applications.
+
 Package: libiphb0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: API for IP Heartbeat service
+Description: API for IP Heartbeat daemon
  This package contains C API for using IP Heartbeat service.
 
 Package: iphbd-dbg
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: libiphb0 (= ${Source-Version})
+Depends: libiphb0 (= ${binary:Version})
 Description: Debug symbols for iphbd and libiphb0
  This package provides debug symbols for the IP Heartbeat API and daemon.
 
 Package: libiphb-dev
 Section: libdevel
 Architecture: any
-Depends: libiphb0 (= ${Source-Version}), ${shlibs:Depends}
-Description: Development files for IP Heartbeat service
+Depends: libiphb0 (= ${binary:Version})
+Description: Development files for IP Heartbeat daemon
  This package contains C headers for the IP Heartbeat API.
