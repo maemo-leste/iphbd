@@ -70,7 +70,9 @@ struct keepalives {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
 	int (*okfn)(struct sk_buff *);
 #else
-	const struct nf_hook_state *state;
+	struct sock *sk;
+	struct net *net;
+	int (*okfn)(struct net *, struct sock *, struct sk_buff *);
 #endif
 };
 
@@ -85,7 +87,9 @@ struct packets {
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
 	int (*okfn)(struct sk_buff *);
 #else
-	const struct nf_hook_state *state;
+	struct sock *sk;
+	struct net *net;
+	int (*okfn)(struct net *, struct sock *, struct sk_buff *);
 #endif
 };
 
@@ -147,7 +151,9 @@ static void flush_keepalives(int notify)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
 		packet->okfn = entry->okfn;
 #else
-		packet->state = entry->state;
+		packet->net = entry->net;
+		packet->sk = entry->sk;
+		packet->okfn = entry->okfn;
 #endif
 		list_add_tail(&packet->list, &packets.list);
 
@@ -171,8 +177,7 @@ static void flush_keepalives(int notify)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
 		ret = packet->okfn(packet->skb);
 #else
-		ret = packet->state->okfn(packet->state->net, packet->state->sk,
-					  packet->skb);
+		ret = packet->okfn(packet->net, packet->sk, packet->skb);
 #endif
 		list_del(p);
 		kfree(packet);
@@ -353,7 +358,9 @@ static unsigned int net_out_hook(void *priv,
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
 	keepalive->okfn = okfn;
 #else
-	keepalive->state = state;
+	keepalive->net = state->net;
+	keepalive->sk = state->sk;
+	keepalive->okfn = state->okfn;
 #endif
 
 	spin_lock_bh(&keepalives_lock);
