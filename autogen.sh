@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Bootstrap autotools environment
-libtoolize
+libtoolize --automake
 aclocal
 automake -ac
 autoconf

@@ -12,33 +12,49 @@
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-CFLAGS = -Wall -g
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+CFLAGS = -Wall -g -Werror
+PACKAGENAME = clockd
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
 	CFLAGS += -O2
 endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
 
-export CFLAGS
+ifneq (,$(findstring thumb,$(DEB_BUILD_OPTIONS)))
+        CFLAGS += -mthumb
+endif
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	conf_opt += --enable-debug
+endif
 
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
-	# Add here commands to configure the package.
-	./autogen.sh
+
+	# commands to configure the package.
+	if [ ! -x configure ]; then ./autogen.sh; fi
+	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
+		--prefix=/usr --sysconfdir=/etc --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info $(conf_opt) \
+		--disable-cast-checks
 
 	touch configure-stamp
 
-#Architecture
 build: build-stamp
+	touch build-stamp
 
 build-stamp: configure-stamp
+	dh_testdir
 
-	dh_auto_configure --
-	dh_auto_build
-
-	touch build-stamp
+	# Add here commands to compile the package.
+	$(MAKE)
 
 clean:
 	dh_testdir
