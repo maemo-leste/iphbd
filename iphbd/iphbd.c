@@ -793,7 +793,7 @@ main(signed int argc, char **argv)
     int st;
 
     wait_started_time = time(0);
-    st = wait_events(fds, &nfds, now);
+    st = wait_events(fds, &nfds, wait_started_time);
 
     /* FIXME - what a condition, eh? */
     if (st != -1 || errno != EINTR || sighup)
