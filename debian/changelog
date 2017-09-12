@@ -1,3 +1,9 @@
+iphbd (0.0.17-1) unstable; urgency=medium
+
+  * Enable git builds
+
+ -- Ivan J. <parazyd@dyne.org>  Tue, 12 Sep 2017 14:55:00 +0200
+
 iphbd (0.0.17) unstable; urgency=low
 
   * First RE release
