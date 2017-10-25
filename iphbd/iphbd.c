@@ -532,7 +532,7 @@ wake_up_client(client_t *client, time_t now)
 }
 
 static int
-find_one_to_wake(now)
+find_one_to_wake(time_t now)
 {
   client_t *client;
 
