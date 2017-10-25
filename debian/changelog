@@ -1,3 +1,9 @@
+iphbd (0.0.18) unstable; urgency=medium
+
+  * Fix compilation error in iphbd.c
+
+ -- Merlijn B. W. Wajer <merlijn@wizzup.org>  Tue, 25 Oct 2017 14:53:00 +0200
+
 iphbd (0.0.17-1) unstable; urgency=medium
 
   * Enable git builds
