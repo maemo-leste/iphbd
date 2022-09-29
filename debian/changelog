@@ -1,3 +1,10 @@
+iphbd (0.1.0) unstable; urgency=low
+
+  * Port iphb_I_woke_up from sailfish
+  * Port to debhelper 10
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Tue, 29 Sep 2022 18:47:11 +0300
+
 iphbd (0.0.18) unstable; urgency=medium
 
   * Fix compilation error in iphbd.c
