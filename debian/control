@@ -2,7 +2,7 @@ Source: iphbd
 Section: misc
 Priority: optional
 Maintainer: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Build-Depends: debhelper (>= 4.1.0),
+Build-Depends: debhelper (>= 10),
  pkg-config,
  libglib2.0-dev,
  libdbus-1-dev (>= 1.0),
@@ -10,13 +10,13 @@ Build-Depends: debhelper (>= 4.1.0),
  libtool,
  autoconf,
  automake
-Standards-Version: 3.7.2
+Standards-Version: 4.3.0
 
 Package: iphbd
 Section: misc
 Priority: optional
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, iphb-dkms
 Description: IP heartbeat daemon
  This package contains the IP Heartbeat daemon which provides
  synchronization services for applications.
@@ -27,14 +27,6 @@ Architecture: any
 Depends: ${shlibs:Depends}
 Description: API for IP Heartbeat daemon
  This package contains C API for using IP Heartbeat service.
-
-Package: iphbd-dbg
-Section: libdevel
-Priority: extra
-Architecture: any
-Depends: libiphb0 (= ${binary:Version})
-Description: Debug symbols for iphbd and libiphb0
- This package provides debug symbols for the IP Heartbeat API and daemon.
 
 Package: libiphb-dev
 Section: libdevel

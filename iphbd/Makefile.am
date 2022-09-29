@@ -34,13 +34,5 @@ iphbdinclude_HEADERS = libiphb.h
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = libiphb.pc
 
-iphbdconfdefdir=$(sysconfdir)/default
-iphbdconfdef_DATA = ../etc/default/iphbd
 iphbdconfdbusdir=$(sysconfdir)/dbus-1/system.d
 iphbdconfdbus_DATA = ../etc/dbus-1/system.d/iphbd.conf
-iphbdconfudevdir=$(sysconfdir)/udev/rules.d
-iphbdconfudev_DATA = ../etc/udev/rules.d/95-iphb.rules
-iphbdconfinitddir=$(sysconfdir)/init.d
-iphbdconfinitd_DATA = ../etc/init.d/iphbd
-iphbdconfeventddir=$(sysconfdir)/event.d
-iphbdconfeventd_DATA = ../etc/event.d/iphb

@@ -28,12 +28,6 @@ DESC="IP Heartbeat Daemon"
 INITFILE=/etc/init.d/$NAME
 DSMETOOL=/usr/sbin/dsmetool
 IPHBD_DAEMON_OPTS=""
-REL=`uname -r`
-#REL2=`echo "$REL" | awk -F - '{ print $1 }'`
-#if [ "$REL" != 2.6.25 ]; then
-#    echo "$0: Wrong kernel version, only $REL supported"
-#    exit 0
-#fi
 
 # abort if no executable exists
 test -x $DAEMON || exit 0
@@ -45,32 +39,12 @@ fi
 
 set -e
 
-
 # only use dsmetool if it exists
 test -x $DSMETOOL || USE_DSMETOOL=no
 
-
-if [ -e /etc/osso-af-init/af-defines.sh ]
-then
-  source /etc/osso-af-init/af-defines.sh
-fi
-
-if [ -d /etc/osso-af-init ]
-then 
-  if [ -f /etc/osso-af-init/*.defs ]; then
-    for i in /etc/osso-af-init/*.defs
-    do
-      source $i
-    done
-  fi
-fi
-
-
 start_iphbd()
 {
-    printf "Inserting module /lib/modules/$REL/iphb.ko..."
-    insmod /lib/modules/$REL/iphb.ko
-    printf "Starting daemon $NAME..."
+    modprobe iphb
     if [ x"$USE_DSMETOOL" = xno ]; then
 	start-stop-daemon --start --quiet  \
 	    --exec $DAEMON -- $IPHBD_DAEMON_OPTS
@@ -81,7 +55,6 @@ start_iphbd()
 
 stop_iphbd()
 {
-    printf "Stopping daemon $NAME..."
     if [ x"$USE_DSMETOOL" = xno ]; then
 	start-stop-daemon --stop --oknodo --quiet  \
 	    $DAEMON
@@ -89,9 +62,7 @@ stop_iphbd()
 	dsmetool -U root -k "$DAEMON $IPHBD_DAEMON_OPTS"
     fi
     sleep 2
-    printf "Removing module iphb..."
     rmmod iphb
-
 }
 
 case "$1" in
@@ -107,14 +78,13 @@ stop)
         ;;
 
 restart|force-reload)
-        printf "Restarting $DESC: $NAME"
+        printf "Restarting $DESC: $NAME...\n"
 	stop_iphbd
         sleep 2
 	start_iphbd
         ;;
-
 *)
-        printf "Usage: $INITFILE {start|stop|restart|force-reload}\n" >&2
+        printf "Usage: $INITFILE {start|stop|restart}\n" >&2
         exit 1
         ;;
 esac

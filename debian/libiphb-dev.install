@@ -1,4 +1,4 @@
-debian/tmp/usr/lib/libiphb.so
-debian/tmp/usr/lib/libiphb.a
-debian/tmp/usr/include/iphbd/*.h
-debian/tmp/usr/lib/pkgconfig/*.pc
+usr/lib/*/libiphb.so
+usr/lib/*/libiphb.a
+usr/include/iphbd/*.h
+usr/lib/*/pkgconfig/*.pc
