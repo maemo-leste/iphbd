@@ -10,9 +10,6 @@
 
 */
 
-
-
-
 #ifndef IPHB_H
 #define IPHB_H
 
@@ -22,9 +19,6 @@
    Handle to IP heartbeat service (NULL is invalid handle) 
 */
 typedef void * iphb_t; 
-
-
-
 
 /**
    IPHBD_DBUS_SERVICE:
@@ -44,7 +38,6 @@ typedef void * iphb_t;
 */
 #define IPHBD_DBUS_INTERFACE "com.nokia.iphbd"
 
-
 /**
    IPHBD_DBUS_WAKEUP:
    Signal from iphbd when the heartbeat occurs (PID appended!).
@@ -52,8 +45,6 @@ typedef void * iphb_t;
 
 */
 #define IPHBD_DBUS_WAKEUP     "wakeup"
-
-
 
 /**
    IPHB_DBUS_MATCH_RULE:
@@ -64,11 +55,6 @@ typedef void * iphb_t;
 */
 #define IPHB_DBUS_MATCH_RULE "type='signal',interface='com.nokia.iphbd',member='wakeup%lu'"
 
-
-
-
-
-
 /**
    Open iphb service.
 
@@ -78,16 +64,23 @@ typedef void * iphb_t;
                 If error, behave just like before (i.e. no heartbeat service)
 
 */   
-
 iphb_t iphb_open(int *heartbeat_interval);
 
-
-
-
-
-
-
-
+/**
+   "Global sync" predefined values (slots), see iphb_wait() function.
+   The timeline is divided into "fixed global slots (GS)" (all waiters for a certain slot
+   are woken up at the same time (also the lower-value waiters).
+ */
+#define IPHB_GS_WAIT_30_SEC         30   //!< 30 second wakeup slot
+#define IPHB_GS_WAIT_2_5_MINS (2*60+30)  //!< 2.5 minute wakeup slot, the users of the previous slots wake here as well
+#define IPHB_GS_WAIT_5_MINS   (5*60)     //!< 5 minute wakeup slot, the users of the previous slots wake here as well
+#define IPHB_GS_WAIT_10_MINS  (10*60)    //!< 10 minute wakeup slot, the users of the previous slots wake here as well;
+                                         //      you can use any multiplication of IPHB_GS_WAIT_10_MINS, although it
+                                         //      is recommended to use these predefined values
+#define IPHB_GS_WAIT_30_MINS  (30*60)    //!< 30 minute wakeup slot, the users of the previous slots wake here as well
+#define IPHB_GS_WAIT_1_HOUR   (60*60)    //!< 1 hour wakeup slot, the users of the previous slots wake here as well
+#define IPHB_GS_WAIT_2_HOURS  (2*60*60)  //!< 2 hours wakeup slot, the users of the previous slots wake here as well
+#define IPHB_GS_WAIT_10_HOURS (10*60*60) //!< 10 hours wakeup slot, the users of the previous slots wake here as well
 
 /**
    Wait for the next heartbeat. 
@@ -101,16 +94,18 @@ iphb_t iphb_open(int *heartbeat_interval);
                         or D-Bus signal (see IPHBD_DBUS*)
 
    @return		Time waited, (time_t)-1 if error (check errno)
-
-
 */
 time_t
 iphb_wait(iphb_t iphbh, unsigned short mintime, unsigned short maxtime, int must_wait);
 
-
-
-
-
+/**
+   This function should be called if the application
+   has woken up by some other method than via iphb.
+   @param iphbh		Handle got from iphb_open
+   @return		>=0 if OK (number of bytes wakeup bytes discarded), -1 if error (check errno)
+*/
+int
+iphb_I_woke_up(iphb_t iphbh);
 
 /**
    Get file descriptor for iphb (for use with select()/poll())
@@ -119,11 +114,8 @@ iphb_wait(iphb_t iphbh, unsigned short mintime, unsigned short maxtime, int must
 
    @return	Descriptor that can be used for select/poll, -1 if error (check errno)
 */   
-
-int iphb_get_fd(iphb_t iphbh);
-
-
-
+int
+iphb_get_fd(iphb_t iphbh);
 
 /**
    Get unique connection ID (to construct D-Bus filter)
@@ -132,23 +124,19 @@ int iphb_get_fd(iphb_t iphbh);
 
    @return	ID for the connection (> 0), 0 if error (check errno)
 */   
-
-unsigned long iphb_get_uid(iphb_t iphbh);
-
-
+unsigned long
+iphb_get_uid(iphb_t iphbh);
 
 /** iphbd statistics
    - unsigned int clients: number of active IPHB clients
    - unsigned int waiting: number of IPHB clients that are waiting for heartbeat
    - unsigned int next_hb: number of seconds after the next heartbeat shall occur, 0 if there are nobody waiting 
 */
-
 struct iphb_stats {
   unsigned int     clients;  
   unsigned int 	   waiting; 	
   unsigned int     next_hb; 	
 };
-
 
 /**
    Get statistics. Struct iphb_stats is filled as follows:<br>
@@ -163,11 +151,8 @@ struct iphb_stats {
    @return	0 if OK, -1 if error (check errno)
 */   
 
-int iphb_get_stats(iphb_t iphbh, struct iphb_stats *stats);
-
-
-
-
+int
+iphb_get_stats(iphb_t iphbh, struct iphb_stats *stats);
 
 /**
    Close iphb service.
@@ -178,7 +163,4 @@ int iphb_get_stats(iphb_t iphbh, struct iphb_stats *stats);
 */   
 iphb_t iphb_close(iphb_t iphbh);
 
-
-
 #endif  /* IPHB_H */
-

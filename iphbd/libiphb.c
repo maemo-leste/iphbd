@@ -93,7 +93,9 @@ iphb_open(int *heartbeat_interval)
 
       if (recv(fd, &resp, sizeof(resp), MSG_WAITALL) > 0)
       {
-        *heartbeat_interval = resp.timeout;
+        if (heartbeat_interval)
+          *heartbeat_interval = resp.timeout;
+
         HB_INST(iphbh)->fd = fd;
         HB_INST(iphbh)->uid = resp.uid;
         return iphbh;
@@ -252,4 +254,34 @@ iphb_wait(iphb_t iphbh, unsigned short mintime, unsigned short maxtime,
     return resp.waited;
   else
     return (time_t)-1;
+}
+
+int
+iphb_I_woke_up(iphb_t iphbh)
+{
+  int st;
+  struct _iphb_req_t req = {IPHB_WAIT};
+
+  if (!iphbh)
+  {
+    errno = EINVAL;
+    return -1;
+  }
+
+  st = suck_data(HB_INST(iphbh)->fd);
+
+  if (st)
+    return st;
+
+  req.u.wait.pid = getpid();
+  req.u.wait.mintime = 0;
+  req.u.wait.maxtime = 0;
+
+  if (send(HB_INST(iphbh)->fd, &req, sizeof(req), MSG_DONTWAIT|MSG_NOSIGNAL) !=
+      sizeof(req))
+  {
+    return -1;
+  }
+
+  return 0;
 }
