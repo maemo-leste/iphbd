@@ -347,7 +347,12 @@ handle_wait_req(struct _iphb_wait_req_t *req, client_t *client, time_t now)
   IPHBD_DEBUG("client with socket %d signaled interest of waiting (min=%d/max=%d)",
               client->fd, req->mintime, req->maxtime);
 
-  client->wait_started = now;
+  /* align to system slots if needed */
+  if (req->mintime == req->maxtime && req->maxtime % IPHB_GS_WAIT_30_SEC == 0)
+    client->wait_started = (now / req->maxtime) * req->maxtime;
+  else
+    client->wait_started = now;
+
   client->maxtime = req->maxtime;
   client->mintime = req->mintime;
   client->pid = req->pid;
