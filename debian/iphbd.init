@@ -44,7 +44,7 @@ test -x $DSMETOOL || USE_DSMETOOL=no
 
 start_iphbd()
 {
-    modprobe iphb
+    modprobe iphb || true
     if [ x"$USE_DSMETOOL" = xno ]; then
 	start-stop-daemon --start --quiet  \
 	    --exec $DAEMON -- $IPHBD_DAEMON_OPTS
@@ -62,7 +62,7 @@ stop_iphbd()
 	dsmetool -U root -k "$DAEMON $IPHBD_DAEMON_OPTS"
     fi
     sleep 2
-    rmmod iphb
+    rmmod iphb || true
 }
 
 case "$1" in
