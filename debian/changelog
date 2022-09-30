@@ -1,3 +1,9 @@
+iphbd (0.1.2) unstable; urgency=low
+
+  * do not fail if iphb module cannot be found
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Fri, 30 Sep 2022 09:37:33 +0300
+
 iphbd (0.1.1) unstable; urgency=low
 
   * implement system time slots
