@@ -13,6 +13,7 @@
 #include <poll.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <inttypes.h>
 
 #include <dbus/dbus.h>
 
@@ -223,8 +224,8 @@ wait_events(struct pollfd *pfds, nfds_t *nfds, time_t now)
       if (deadline < sleeptime + now)
         sleeptime = deadline - now;
 
-      IPHBD_DEBUG("client with socket %d wanted a wakeup-call, it has slept %lu secs - sleeptime now %d",
-                  c->fd, now - c->wait_started, sleeptime);
+      IPHBD_DEBUG("client with socket %d wanted a wakeup-call, it has slept %"PRIdMAX" secs - sleeptime now %d",
+                  c->fd, (intmax_t)(now - c->wait_started), sleeptime);
     }
   }
 
@@ -600,8 +601,8 @@ wake_up_clients(time_t now, bool kernel_wakeup, time_t *last_wakeup)
       continue;
     }
 
-    IPHBD_DEBUG("client with sock %d, UID %lu, has slept %lu secs", client->fd,
-                client->uid, now - client->wait_started);
+    IPHBD_DEBUG("client with sock %d, UID %lu, has slept %"PRIdMAX" secs", client->fd,
+                client->uid, (intmax_t)(now - client->wait_started));
 
     if (noop_test_mode)
     {
